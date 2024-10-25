@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendizaje de Lenguas Indígenas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .container {
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin: 0.5em;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 0.5em;
+            color: #666;
+        }
+
+        .languages, .levels, .language-info {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #progressContainer {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        #progressBar {
+            width: 0;
+            height: 20px;
+            background-color: #4caf50;
+            text-align: center;
+            color: white;
+            transition: width 0.2s;
+        }
+
+        .language-info img {
+            width: 150px;
+            height: auto;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+        
+        .info-text {
+            text-align: left;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="fade-in">Empezaremos con tu aprendizaje</h1>
+        <p class="fade-in" style="animation-delay: 0.5s;">¿Qué idioma quieres aprender?</p>
+        <div class="languages fade-in" style="animation-delay: 1s;">
+            <button class="btn" onclick="selectLanguage('Quechua')">Quechua</button>
+            <button class="btn" onclick="selectLanguage('Aymara')">Aymara</button>
+            <button class="btn" onclick="selectLanguage('Náhuatl')">Náhuatl</button>
+            <button class="btn" onclick="selectLanguage('Guaraní')">Guaraní</button>
+        </div>
+
+        <div id="levelSection" class="levels hidden">
+            <p>Perfecto, escoge tu nivel</p>
+            <button class="btn" onclick="selectLevel('Nuevo')">Nuevo</button>
+            <button class="btn" onclick="selectLevel('Aprendiz')">Aprendiz</button>
+            <button class="btn" onclick="selectLevel('Intermedio')">Intermedio</button>
+            <button class="btn" onclick="selectLevel('Avanzado')">Avanzado</button>
+        </div>
+
+        <div id="resultMessage" class="fade-in hidden"></div>
+        <div id="languageInfo" class="language-info hidden fade-in">
+            <img id="languageImage" src="" alt="Idioma">
+            <div class="info-text">
+                <p id="languageDescription"></p>
+            </div>
+        </div>
+
+        <div id="progressContainer" class="hidden">
+            <div id="progressBar">0%</div>
+        </div>
+    </div>
+
+    <script>
+        let selectedLanguage = '';
+
+        function selectLanguage(language) {
+            selectedLanguage = language;
+            document.querySelector('.languages').classList.add('hidden');
+            document.getElementById('levelSection').classList.remove('hidden');
+            document.getElementById('levelSection').classList.add('fade-in');
+        }
+
+        function selectLevel(level) {
+            document.getElementById('levelSection').classList.add('hidden');
+            const resultMessage = document.getElementById('resultMessage');
+            resultMessage.textContent = `¡Perfecto! Escogiste el nivel: ${level}`;
+            resultMessage.classList.remove('hidden');
+
+            setLanguageInfo();
+            startLoadingBar();
+        }
+
+        function setLanguageInfo() {
+            const languageInfo = {
+                'Quechua': {
+                    img: 'kechua.png',
+                    description: 'El quechua es una familia de lenguas originarias de la región andina de Sudamérica.',
+                    page: 'Quechua.html'
+                },
+                'Aymara': {
+                    img: 'Aymara.png',
+                    description: 'El aymara es una lengua indígena hablada principalmente en Bolivia, Perú y Chile.',
+                    page: 'Aymara.html'
+                },
+                'Náhuatl': {
+                    img: 'Náhuatl.png',
+                    description: 'El náhuatl es una lengua indígena de México, hablada históricamente por los aztecas.',
+                    page: 'Nahuatl.html'
+                },
+                'Guaraní': {
+                    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Flag_of_the_Guarani_people.svg/2560px-Flag_of_the_Guarani_people.svg.png',
+                    description: 'El guaraní es una lengua indígena del Paraguay y regiones vecinas en América del Sur.',
+                    page: 'Guarani.html'
+                }
+            };
+
+            const languageData = languageInfo[selectedLanguage];
+            document.getElementById('languageImage').src = languageData.img;
+            document.getElementById('languageDescription').textContent = languageData.description;
+            document.getElementById('languageInfo').classList.remove('hidden');
+
+            // Guarda la página de destino del idioma seleccionado
+            selectedLanguagePage = languageData.page;
+        }
+
+        let selectedLanguagePage = '';
+
+        function startLoadingBar() {
+            document.getElementById('progressContainer').classList.remove('hidden');
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const interval = setInterval(() => {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    progressBar.textContent = "Dirigiendo a tu práctica";
+                    setTimeout(() => {
+                        window.location.href = selectedLanguagePage;
+                    }, 1000);
+                } else {
+                    progress += 1;
+                    progressBar.style.width = progress + "%";
+                    progressBar.textContent = progress + "%";
+                }
+            }, 50);
+        }
+    </script>
+</body>
+</html>
