@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f2f2f2;
+            background-color: #f9f9f9;
             color: #333;
             margin: 0;
             padding: 0;
@@ -29,12 +29,12 @@
         }
 
         h1 {
-            font-size: 2em;
+            font-size: 2.5em;
             margin: 0.5em;
         }
 
         p {
-            font-size: 1.2em;
+            font-size: 1.3em;
             margin: 0.5em;
             color: #666;
         }
@@ -66,32 +66,38 @@
         }
 
         #progressContainer {
-            width: 100%;
+            width: 70%;
+            margin: 20px auto;
             background-color: #ddd;
-            border-radius: 5px;
-            margin-top: 20px;
+            border-radius: 8px;
             overflow: hidden;
         }
 
         #progressBar {
             width: 0;
-            height: 20px;
+            height: 15px;
             background-color: #4caf50;
             text-align: center;
             color: white;
             transition: width 0.2s;
+            font-size: 0.9em;
+            border-radius: 5px;
         }
 
         .language-info img {
-            width: 150px;
-            height: auto;
-            border-radius: 8px;
+            width: auto;
+            height: 250px;
+            max-width: 100%;
+            border-radius: 10px;
             margin-right: 15px;
+            object-fit: cover;
         }
-        
+
         .info-text {
             text-align: left;
-            max-width: 400px;
+            max-width: 500px;
+            font-size: 1.2em;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -129,6 +135,7 @@
 
     <script>
         let selectedLanguage = '';
+        let selectedLevel = ''; // Agregamos una variable para el nivel seleccionado
 
         function selectLanguage(language) {
             selectedLanguage = language;
@@ -138,6 +145,7 @@
         }
 
         function selectLevel(level) {
+            selectedLevel = level; // Guardamos el nivel seleccionado
             document.getElementById('levelSection').classList.add('hidden');
             const resultMessage = document.getElementById('resultMessage');
             resultMessage.textContent = `¡Perfecto! Escogiste el nivel: ${level}`;
@@ -150,23 +158,23 @@
         function setLanguageInfo() {
             const languageInfo = {
                 'Quechua': {
-                    img: 'kechua.png',
-                    description: 'El quechua es una familia de lenguas originarias de la región andina de Sudamérica.',
+                    img: 'Quechua.png',
+                    description: 'El quechua es una lengua ancestral de la región andina, hablada por millones de personas en países como Perú, Bolivia, Ecuador y Colombia. Su uso simboliza resistencia cultural y preservación de saberes milenarios, con una rica tradición en leyendas, costumbres y cosmovisión.',
                     page: 'Quechua.html'
                 },
                 'Aymara': {
                     img: 'Aymara.png',
-                    description: 'El aymara es una lengua indígena hablada principalmente en Bolivia, Perú y Chile.',
+                    description: 'El aymara es una lengua originaria del altiplano andino, especialmente presente en Bolivia, Perú y Chile. Es una lengua llena de simbolismo y sabiduría, representativa de la identidad de comunidades que viven en equilibrio con la naturaleza y sus tradiciones.',
                     page: 'Aymara.html'
                 },
                 'Náhuatl': {
                     img: 'Náhuatl.png',
-                    description: 'El náhuatl es una lengua indígena de México, hablada históricamente por los aztecas.',
+                    description: 'El náhuatl, lengua de los antiguos mexicas, es hablado en muchas comunidades de México. Con raíces profundas en la historia prehispánica, su vocabulario ha influido el español mexicano con palabras como "chocolate" y "tomate". Es un pilar de la identidad cultural de los pueblos indígenas de México.',
                     page: 'Nahuatl.html'
                 },
                 'Guaraní': {
-                    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Flag_of_the_Guarani_people.svg/2560px-Flag_of_the_Guarani_people.svg.png',
-                    description: 'El guaraní es una lengua indígena del Paraguay y regiones vecinas en América del Sur.',
+                    img: 'Guaraní.png',
+                    description: 'El guaraní es una lengua viva en Paraguay y partes de Argentina y Brasil. Forma parte de la identidad nacional de Paraguay, donde se habla oficialmente junto al español. La lengua guaraní preserva las tradiciones y cosmovisión de sus hablantes, quienes valoran profundamente su herencia cultural.',
                     page: 'Guarani.html'
                 }
             };
@@ -176,7 +184,7 @@
             document.getElementById('languageDescription').textContent = languageData.description;
             document.getElementById('languageInfo').classList.remove('hidden');
 
-            // Guarda la página de destino del idioma seleccionado
+            // Guardar la página del idioma seleccionado
             selectedLanguagePage = languageData.page;
         }
 
@@ -191,7 +199,8 @@
                     clearInterval(interval);
                     progressBar.textContent = "Dirigiendo a tu práctica";
                     setTimeout(() => {
-                        window.location.href = selectedLanguagePage;
+                        // Aquí redirigimos a la página del idioma con el nivel como parámetro
+                        window.location.href = `${selectedLanguagePage}?level=${selectedLevel}`;
                     }, 1000);
                 } else {
                     progress += 1;

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Náhuatl</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+        .level-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 15px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border-radius: 5px;
+            width: 100px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .line {
+            height: 40px;
+            border-left: 2px solid #007bff;
+            margin: 0 10px;
+        }
+
+        #levelMessage {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Práctica de Náhuatl</h1>
+    <h2 id="level"></h2>
+    <div class="level-buttons">
+        <button class="btn" onclick="selectLevel('Nuevo')">1</button>
+        <div class="line"></div>
+        <button class="btn" onclick="selectLevel('2')">2</button>
+        <div class="line"></div>
+        <button class="btn" onclick="selectLevel('3')">3</button>
+        <div class="line"></div>
+        <button class="btn" onclick="selectLevel('4')">4</button>
+        <div class="line"></div>
+        <button class="btn" onclick="selectLevel('5')">5</button>
+    </div>
+    <div id="levelMessage"></div>
+
+    <script>
+        function selectLevel(level) {
+            let message = '';
+
+            if (level === 'Nuevo') {
+                message = '¡Bienvenido! Aprenderás cómo saludar en Náhuatl.';
+            } else {
+                message = `Seleccionaste el nivel ${level}. Aquí puedes aprender más sobre Náhuatl.`;
+            }
+
+            document.getElementById('levelMessage').textContent = message;
+        }
+    </script>
+</body>
+</html>
